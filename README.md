@@ -1,1 +1,3 @@
-strikemysqlqueries
+# sql_queries
+
+More documentation coming soon...
