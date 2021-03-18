@@ -215,9 +215,9 @@ func MakeSelectQuery(selectionFields []FieldName, tableName string, filterFields
 //It receives the table name, the new values that updated fields, and an opcional filter for selecting which row to update
 //Eg.: MakeUpdateQuery("all_time_scorers", []FieldWithValue{{"name","Cristiano"},{"surname", "Ronaldo"}}, []FieldWithValue{{"name","Pele"}})
 //Eg. response: UPDATE all_time_scorers SET name = 'Cristiano', surname = 'Ronaldo' WHERE name = 'Pele';
-func MakeUpdateQuery(tableName string, newValues []FieldWithValue, filter []FieldWithValue) string {
-	return fmt.Sprintf("UPDATE %s SET %s %s;",
-		tableName, printAllNewFieldWithValue(newValues), printAllFieldWithValue(filter))
+func MakeUpdateQuery(tableName string, newValues []FieldWithValue, filter []FieldWithValue, joinFields ...JoinField) string {
+	return fmt.Sprintf("UPDATE %s SET %s %s %s;",
+		tableName, printAllNewFieldWithValue(newValues), printAllFieldWithValue(filter), printAllJoinFields(joinFields))
 }
 
 //MakeInsertQuery generates an insert query on SQL.

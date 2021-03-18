@@ -42,6 +42,17 @@ func TestUpdateQueryBasic(t *testing.T) {
 	assert.EqualValues(t, "UPDATE all_time_scorers SET name = 'Cristiano', surname = 'Ronaldo' WHERE name = 'Pele';", query)
 }
 
+func TestUpdateQueryWithJoin(t *testing.T) {
+	query := MakeUpdateQuery("people",
+		[]FieldWithValue{
+			{FieldName: "name", FieldValue: "Tomas"},
+			{FieldName: "twitter_username", FieldValue: "newTomy"}},
+		[]FieldWithValue{{FieldName: "id", FieldValue: "23"}},
+		JoinField{JoinFromTable: "people", JoinToTable: "social_data", JoinFromAttribute: "id", JoinToAttribute: "user_id"})
+
+	assert.EqualValues(t, "UPDATE people SET name = 'Tomas', twitter_username = 'newTomy' WHERE id = 23 JOIN social_data ON people.id = social_data.user_id;", query)
+}
+
 func TestInsertQueryBasic(t *testing.T) {
 	query := MakeInsertQuery("goats",
 		[]FieldWithValue{
@@ -106,7 +117,6 @@ func TestInsertQueryWithStructWithList(t *testing.T) {
 	}
 
 	query := MakeInsertQueryWithStruct("basket_legends", kobe)
-	
 
 	insertNicknamesQueries := []string{}
 	for _, nickname := range kobe.Nicknames {
