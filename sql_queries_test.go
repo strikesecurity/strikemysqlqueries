@@ -39,7 +39,7 @@ func TestUpdateQueryBasic(t *testing.T) {
 			{FieldName: "surname", FieldValue: "Ronaldo"}},
 		[]FieldWithValue{{FieldName: "name", FieldValue: "Pele"}})
 
-	assert.EqualValues(t, "UPDATE all_time_scorers SET name = 'Cristiano', surname = 'Ronaldo' WHERE name = 'Pele';", query)
+	assert.EqualValues(t, "UPDATE all_time_scorers SET name = 'Cristiano', surname = 'Ronaldo' WHERE name = 'Pele' ;", query)
 }
 
 func TestUpdateQueryWithJoin(t *testing.T) {
