@@ -50,7 +50,7 @@ func TestUpdateQueryWithJoin(t *testing.T) {
 		[]FieldWithValue{{FieldName: "id", FieldValue: "23"}},
 		JoinField{JoinFromTable: "people", JoinToTable: "social_data", JoinFromAttribute: "id", JoinToAttribute: "user_id"})
 
-	assert.EqualValues(t, "UPDATE people SET name = 'Tomas', twitter_username = 'newTomy' WHERE id = 23 JOIN social_data ON people.id = social_data.user_id;", query)
+	assert.EqualValues(t, "UPDATE people JOIN social_data ON people.id = social_data.user_id SET name = 'Tomas', twitter_username = 'newTomy' WHERE id = 23;", query)
 }
 
 func TestInsertQueryBasic(t *testing.T) {
