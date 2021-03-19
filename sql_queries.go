@@ -216,8 +216,12 @@ func MakeSelectQuery(selectionFields []FieldName, tableName string, filterFields
 //Eg.: MakeUpdateQuery("all_time_scorers", []FieldWithValue{{"name","Cristiano"},{"surname", "Ronaldo"}}, []FieldWithValue{{"name","Pele"}})
 //Eg. response: UPDATE all_time_scorers SET name = 'Cristiano', surname = 'Ronaldo' WHERE name = 'Pele';
 func MakeUpdateQuery(tableName string, newValues []FieldWithValue, filter []FieldWithValue, joinFields ...JoinField) string {
-	return fmt.Sprintf("UPDATE %s SET %s %s %s;",
-		tableName, printAllNewFieldWithValue(newValues), printAllFieldWithValue(filter), printAllJoinFields(joinFields))
+	if len(joinFields) == 0 {
+		return fmt.Sprintf("UPDATE %s SET %s %s;",
+			tableName, printAllNewFieldWithValue(newValues), printAllFieldWithValue(filter))
+	}
+	return fmt.Sprintf("UPDATE %s %s SET %s %s;",
+		tableName, printAllJoinFields(joinFields), printAllNewFieldWithValue(newValues), printAllFieldWithValue(filter))
 }
 
 //MakeInsertQuery generates an insert query on SQL.
